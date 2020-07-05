@@ -1,0 +1,2794 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> block
+Rule 2     block -> instruction block
+Rule 3     block -> condition block
+Rule 4     block -> loop block
+Rule 5     block -> funcdef block
+Rule 6     block -> instruction
+Rule 7     block -> condition
+Rule 8     block -> loop
+Rule 9     block -> funcdef
+Rule 10    funcdef -> LET NAME LPAREN declarg RPAREN block END
+Rule 11    funcdef -> LET NAME LPAREN RPAREN block END
+Rule 12    funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END
+Rule 13    funcdef -> LET NAME LPAREN RPAREN block RETURN expression END
+Rule 14    statement -> NAME LPAREN callarg RPAREN
+Rule 15    statement -> NAME LPAREN RPAREN
+Rule 16    expression -> NAME LPAREN callarg RPAREN
+Rule 17    expression -> NAME LPAREN RPAREN
+Rule 18    declarg -> NAME COMMA declarg
+Rule 19    declarg -> NAME
+Rule 20    callarg -> expression COMMA callarg
+Rule 21    callarg -> expression
+Rule 22    instruction -> statement SEMICOLON
+Rule 23    instruction -> expression SEMICOLON
+Rule 24    statement -> NAME AFFECT expression
+Rule 25    condition -> IF LPAREN boolexpr RPAREN block END
+Rule 26    condition -> IF LPAREN boolexpr RPAREN block ELSE block END
+Rule 27    loop -> WHILE LPAREN boolexpr RPAREN block END
+Rule 28    loop -> UNTIL LPAREN boolexpr RPAREN block END
+Rule 29    loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+Rule 30    boolexpr -> boolexpr COR boolexpr
+Rule 31    boolexpr -> expression CAND expression
+Rule 32    boolexpr -> expression GT expression
+Rule 33    boolexpr -> expression LT expression
+Rule 34    boolexpr -> expression LOE expression
+Rule 35    boolexpr -> expression GOE expression
+Rule 36    boolexpr -> expression EQUALS expression
+Rule 37    boolexpr -> expression DIFFERENT expression
+Rule 38    expression -> PRINT LPAREN expression RPAREN
+Rule 39    expression -> expression PLUS expression
+Rule 40    expression -> expression TIMES expression
+Rule 41    expression -> expression MINUS expression
+Rule 42    expression -> expression DIVIDE expression
+Rule 43    expression -> expression OR expression
+Rule 44    expression -> expression AND expression
+Rule 45    expression -> LPAREN expression RPAREN
+Rule 46    expression -> NUMBER
+Rule 47    expression -> NAME
+
+Terminals, with rules where they appear
+
+AFFECT               : 24
+AND                  : 44
+CAND                 : 31
+COMMA                : 18 20
+COR                  : 30
+DIFFERENT            : 37
+DIVIDE               : 42
+ELSE                 : 26
+END                  : 10 11 12 13 25 26 27 28 29
+EQUALS               : 36
+FOR                  : 29
+GOE                  : 35
+GT                   : 32
+IF                   : 25 26
+LET                  : 10 11 12 13
+LOE                  : 34
+LPAREN               : 10 11 12 13 14 15 16 17 25 26 27 28 29 38 45
+LT                   : 33
+MINUS                : 41
+NAME                 : 10 11 12 13 14 15 16 17 18 19 24 29 47
+NUMBER               : 46
+OR                   : 43
+PLUS                 : 39
+PRINT                : 38
+RETURN               : 12 13
+RPAREN               : 10 11 12 13 14 15 16 17 25 26 27 28 29 38 45
+SEMICOLON            : 22 23 29 29
+TIMES                : 40
+UNTIL                : 28
+WHILE                : 27
+error                : 
+
+Nonterminals, with rules where they appear
+
+block                : 1 2 3 4 5 10 11 12 13 25 26 26 27 28 29
+boolexpr             : 25 26 27 28 29 30 30
+callarg              : 14 16 20
+condition            : 3 7
+declarg              : 10 12 18
+expression           : 12 13 20 21 23 24 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 39 39 40 40 41 41 42 42 43 43 44 44 45
+funcdef              : 5 9
+instruction          : 2 6
+loop                 : 4 8
+start                : 0
+statement            : 22 29
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . block
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    start                          shift and go to state 1
+    block                          shift and go to state 2
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> block .
+
+    $end            reduce using rule 1 (start -> block .)
+
+
+state 3
+
+    (2) block -> instruction . block
+    (6) block -> instruction .
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    $end            reduce using rule 6 (block -> instruction .)
+    END             reduce using rule 6 (block -> instruction .)
+    ELSE            reduce using rule 6 (block -> instruction .)
+    RETURN          reduce using rule 6 (block -> instruction .)
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    instruction                    shift and go to state 3
+    block                          shift and go to state 18
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 4
+
+    (3) block -> condition . block
+    (7) block -> condition .
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    $end            reduce using rule 7 (block -> condition .)
+    END             reduce using rule 7 (block -> condition .)
+    ELSE            reduce using rule 7 (block -> condition .)
+    RETURN          reduce using rule 7 (block -> condition .)
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    condition                      shift and go to state 4
+    block                          shift and go to state 19
+    instruction                    shift and go to state 3
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 5
+
+    (4) block -> loop . block
+    (8) block -> loop .
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    $end            reduce using rule 8 (block -> loop .)
+    END             reduce using rule 8 (block -> loop .)
+    ELSE            reduce using rule 8 (block -> loop .)
+    RETURN          reduce using rule 8 (block -> loop .)
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    loop                           shift and go to state 5
+    block                          shift and go to state 20
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 6
+
+    (5) block -> funcdef . block
+    (9) block -> funcdef .
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    $end            reduce using rule 9 (block -> funcdef .)
+    END             reduce using rule 9 (block -> funcdef .)
+    ELSE            reduce using rule 9 (block -> funcdef .)
+    RETURN          reduce using rule 9 (block -> funcdef .)
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    funcdef                        shift and go to state 6
+    block                          shift and go to state 21
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 7
+
+    (22) instruction -> statement . SEMICOLON
+
+    SEMICOLON       shift and go to state 22
+
+
+state 8
+
+    (23) instruction -> expression . SEMICOLON
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       shift and go to state 23
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 9
+
+    (25) condition -> IF . LPAREN boolexpr RPAREN block END
+    (26) condition -> IF . LPAREN boolexpr RPAREN block ELSE block END
+
+    LPAREN          shift and go to state 30
+
+
+state 10
+
+    (45) expression -> LPAREN . expression RPAREN
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 31
+
+state 11
+
+    (27) loop -> WHILE . LPAREN boolexpr RPAREN block END
+
+    LPAREN          shift and go to state 33
+
+
+state 12
+
+    (28) loop -> UNTIL . LPAREN boolexpr RPAREN block END
+
+    LPAREN          shift and go to state 34
+
+
+state 13
+
+    (29) loop -> FOR . LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+
+    LPAREN          shift and go to state 35
+
+
+state 14
+
+    (14) statement -> NAME . LPAREN callarg RPAREN
+    (15) statement -> NAME . LPAREN RPAREN
+    (24) statement -> NAME . AFFECT expression
+    (16) expression -> NAME . LPAREN callarg RPAREN
+    (17) expression -> NAME . LPAREN RPAREN
+    (47) expression -> NAME .
+
+    LPAREN          shift and go to state 36
+    AFFECT          shift and go to state 37
+    SEMICOLON       reduce using rule 47 (expression -> NAME .)
+    PLUS            reduce using rule 47 (expression -> NAME .)
+    TIMES           reduce using rule 47 (expression -> NAME .)
+    MINUS           reduce using rule 47 (expression -> NAME .)
+    DIVIDE          reduce using rule 47 (expression -> NAME .)
+    OR              reduce using rule 47 (expression -> NAME .)
+    AND             reduce using rule 47 (expression -> NAME .)
+
+
+state 15
+
+    (10) funcdef -> LET . NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> LET . NAME LPAREN RPAREN block END
+    (12) funcdef -> LET . NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> LET . NAME LPAREN RPAREN block RETURN expression END
+
+    NAME            shift and go to state 38
+
+
+state 16
+
+    (38) expression -> PRINT . LPAREN expression RPAREN
+
+    LPAREN          shift and go to state 39
+
+
+state 17
+
+    (46) expression -> NUMBER .
+
+    SEMICOLON       reduce using rule 46 (expression -> NUMBER .)
+    PLUS            reduce using rule 46 (expression -> NUMBER .)
+    TIMES           reduce using rule 46 (expression -> NUMBER .)
+    MINUS           reduce using rule 46 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 46 (expression -> NUMBER .)
+    OR              reduce using rule 46 (expression -> NUMBER .)
+    AND             reduce using rule 46 (expression -> NUMBER .)
+    RPAREN          reduce using rule 46 (expression -> NUMBER .)
+    CAND            reduce using rule 46 (expression -> NUMBER .)
+    GT              reduce using rule 46 (expression -> NUMBER .)
+    LT              reduce using rule 46 (expression -> NUMBER .)
+    LOE             reduce using rule 46 (expression -> NUMBER .)
+    GOE             reduce using rule 46 (expression -> NUMBER .)
+    EQUALS          reduce using rule 46 (expression -> NUMBER .)
+    DIFFERENT       reduce using rule 46 (expression -> NUMBER .)
+    COMMA           reduce using rule 46 (expression -> NUMBER .)
+    COR             reduce using rule 46 (expression -> NUMBER .)
+    END             reduce using rule 46 (expression -> NUMBER .)
+
+
+state 18
+
+    (2) block -> instruction block .
+
+    $end            reduce using rule 2 (block -> instruction block .)
+    END             reduce using rule 2 (block -> instruction block .)
+    ELSE            reduce using rule 2 (block -> instruction block .)
+    RETURN          reduce using rule 2 (block -> instruction block .)
+
+
+state 19
+
+    (3) block -> condition block .
+
+    $end            reduce using rule 3 (block -> condition block .)
+    END             reduce using rule 3 (block -> condition block .)
+    ELSE            reduce using rule 3 (block -> condition block .)
+    RETURN          reduce using rule 3 (block -> condition block .)
+
+
+state 20
+
+    (4) block -> loop block .
+
+    $end            reduce using rule 4 (block -> loop block .)
+    END             reduce using rule 4 (block -> loop block .)
+    ELSE            reduce using rule 4 (block -> loop block .)
+    RETURN          reduce using rule 4 (block -> loop block .)
+
+
+state 21
+
+    (5) block -> funcdef block .
+
+    $end            reduce using rule 5 (block -> funcdef block .)
+    END             reduce using rule 5 (block -> funcdef block .)
+    ELSE            reduce using rule 5 (block -> funcdef block .)
+    RETURN          reduce using rule 5 (block -> funcdef block .)
+
+
+state 22
+
+    (22) instruction -> statement SEMICOLON .
+
+    IF              reduce using rule 22 (instruction -> statement SEMICOLON .)
+    WHILE           reduce using rule 22 (instruction -> statement SEMICOLON .)
+    UNTIL           reduce using rule 22 (instruction -> statement SEMICOLON .)
+    FOR             reduce using rule 22 (instruction -> statement SEMICOLON .)
+    LET             reduce using rule 22 (instruction -> statement SEMICOLON .)
+    NAME            reduce using rule 22 (instruction -> statement SEMICOLON .)
+    PRINT           reduce using rule 22 (instruction -> statement SEMICOLON .)
+    LPAREN          reduce using rule 22 (instruction -> statement SEMICOLON .)
+    NUMBER          reduce using rule 22 (instruction -> statement SEMICOLON .)
+    $end            reduce using rule 22 (instruction -> statement SEMICOLON .)
+    END             reduce using rule 22 (instruction -> statement SEMICOLON .)
+    ELSE            reduce using rule 22 (instruction -> statement SEMICOLON .)
+    RETURN          reduce using rule 22 (instruction -> statement SEMICOLON .)
+
+
+state 23
+
+    (23) instruction -> expression SEMICOLON .
+
+    IF              reduce using rule 23 (instruction -> expression SEMICOLON .)
+    WHILE           reduce using rule 23 (instruction -> expression SEMICOLON .)
+    UNTIL           reduce using rule 23 (instruction -> expression SEMICOLON .)
+    FOR             reduce using rule 23 (instruction -> expression SEMICOLON .)
+    LET             reduce using rule 23 (instruction -> expression SEMICOLON .)
+    NAME            reduce using rule 23 (instruction -> expression SEMICOLON .)
+    PRINT           reduce using rule 23 (instruction -> expression SEMICOLON .)
+    LPAREN          reduce using rule 23 (instruction -> expression SEMICOLON .)
+    NUMBER          reduce using rule 23 (instruction -> expression SEMICOLON .)
+    $end            reduce using rule 23 (instruction -> expression SEMICOLON .)
+    END             reduce using rule 23 (instruction -> expression SEMICOLON .)
+    ELSE            reduce using rule 23 (instruction -> expression SEMICOLON .)
+    RETURN          reduce using rule 23 (instruction -> expression SEMICOLON .)
+
+
+state 24
+
+    (39) expression -> expression PLUS . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 40
+
+state 25
+
+    (40) expression -> expression TIMES . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 41
+
+state 26
+
+    (41) expression -> expression MINUS . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 42
+
+state 27
+
+    (42) expression -> expression DIVIDE . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 43
+
+state 28
+
+    (43) expression -> expression OR . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 44
+
+state 29
+
+    (44) expression -> expression AND . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 45
+
+state 30
+
+    (25) condition -> IF LPAREN . boolexpr RPAREN block END
+    (26) condition -> IF LPAREN . boolexpr RPAREN block ELSE block END
+    (30) boolexpr -> . boolexpr COR boolexpr
+    (31) boolexpr -> . expression CAND expression
+    (32) boolexpr -> . expression GT expression
+    (33) boolexpr -> . expression LT expression
+    (34) boolexpr -> . expression LOE expression
+    (35) boolexpr -> . expression GOE expression
+    (36) boolexpr -> . expression EQUALS expression
+    (37) boolexpr -> . expression DIFFERENT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    boolexpr                       shift and go to state 46
+    expression                     shift and go to state 47
+
+state 31
+
+    (45) expression -> LPAREN expression . RPAREN
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          shift and go to state 48
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 32
+
+    (16) expression -> NAME . LPAREN callarg RPAREN
+    (17) expression -> NAME . LPAREN RPAREN
+    (47) expression -> NAME .
+
+    LPAREN          shift and go to state 49
+    RPAREN          reduce using rule 47 (expression -> NAME .)
+    PLUS            reduce using rule 47 (expression -> NAME .)
+    TIMES           reduce using rule 47 (expression -> NAME .)
+    MINUS           reduce using rule 47 (expression -> NAME .)
+    DIVIDE          reduce using rule 47 (expression -> NAME .)
+    OR              reduce using rule 47 (expression -> NAME .)
+    AND             reduce using rule 47 (expression -> NAME .)
+    SEMICOLON       reduce using rule 47 (expression -> NAME .)
+    CAND            reduce using rule 47 (expression -> NAME .)
+    GT              reduce using rule 47 (expression -> NAME .)
+    LT              reduce using rule 47 (expression -> NAME .)
+    LOE             reduce using rule 47 (expression -> NAME .)
+    GOE             reduce using rule 47 (expression -> NAME .)
+    EQUALS          reduce using rule 47 (expression -> NAME .)
+    DIFFERENT       reduce using rule 47 (expression -> NAME .)
+    COMMA           reduce using rule 47 (expression -> NAME .)
+    COR             reduce using rule 47 (expression -> NAME .)
+    END             reduce using rule 47 (expression -> NAME .)
+
+
+state 33
+
+    (27) loop -> WHILE LPAREN . boolexpr RPAREN block END
+    (30) boolexpr -> . boolexpr COR boolexpr
+    (31) boolexpr -> . expression CAND expression
+    (32) boolexpr -> . expression GT expression
+    (33) boolexpr -> . expression LT expression
+    (34) boolexpr -> . expression LOE expression
+    (35) boolexpr -> . expression GOE expression
+    (36) boolexpr -> . expression EQUALS expression
+    (37) boolexpr -> . expression DIFFERENT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    boolexpr                       shift and go to state 50
+    expression                     shift and go to state 47
+
+state 34
+
+    (28) loop -> UNTIL LPAREN . boolexpr RPAREN block END
+    (30) boolexpr -> . boolexpr COR boolexpr
+    (31) boolexpr -> . expression CAND expression
+    (32) boolexpr -> . expression GT expression
+    (33) boolexpr -> . expression LT expression
+    (34) boolexpr -> . expression LOE expression
+    (35) boolexpr -> . expression GOE expression
+    (36) boolexpr -> . expression EQUALS expression
+    (37) boolexpr -> . expression DIFFERENT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    boolexpr                       shift and go to state 51
+    expression                     shift and go to state 47
+
+state 35
+
+    (29) loop -> FOR LPAREN . NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+
+    NAME            shift and go to state 52
+
+
+state 36
+
+    (14) statement -> NAME LPAREN . callarg RPAREN
+    (15) statement -> NAME LPAREN . RPAREN
+    (16) expression -> NAME LPAREN . callarg RPAREN
+    (17) expression -> NAME LPAREN . RPAREN
+    (20) callarg -> . expression COMMA callarg
+    (21) callarg -> . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    RPAREN          shift and go to state 54
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    callarg                        shift and go to state 53
+    expression                     shift and go to state 55
+
+state 37
+
+    (24) statement -> NAME AFFECT . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 56
+
+state 38
+
+    (10) funcdef -> LET NAME . LPAREN declarg RPAREN block END
+    (11) funcdef -> LET NAME . LPAREN RPAREN block END
+    (12) funcdef -> LET NAME . LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> LET NAME . LPAREN RPAREN block RETURN expression END
+
+    LPAREN          shift and go to state 57
+
+
+state 39
+
+    (38) expression -> PRINT LPAREN . expression RPAREN
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 58
+
+state 40
+
+    (39) expression -> expression PLUS expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 39 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 39 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 39 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 39 (expression -> expression PLUS expression .)
+    CAND            reduce using rule 39 (expression -> expression PLUS expression .)
+    GT              reduce using rule 39 (expression -> expression PLUS expression .)
+    LT              reduce using rule 39 (expression -> expression PLUS expression .)
+    LOE             reduce using rule 39 (expression -> expression PLUS expression .)
+    GOE             reduce using rule 39 (expression -> expression PLUS expression .)
+    EQUALS          reduce using rule 39 (expression -> expression PLUS expression .)
+    DIFFERENT       reduce using rule 39 (expression -> expression PLUS expression .)
+    COMMA           reduce using rule 39 (expression -> expression PLUS expression .)
+    COR             reduce using rule 39 (expression -> expression PLUS expression .)
+    END             reduce using rule 39 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+  ! TIMES           [ reduce using rule 39 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 39 (expression -> expression PLUS expression .) ]
+  ! OR              [ reduce using rule 39 (expression -> expression PLUS expression .) ]
+  ! AND             [ reduce using rule 39 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! MINUS           [ shift and go to state 26 ]
+
+
+state 41
+
+    (40) expression -> expression TIMES expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 40 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 40 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 40 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 40 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 40 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 40 (expression -> expression TIMES expression .)
+    CAND            reduce using rule 40 (expression -> expression TIMES expression .)
+    GT              reduce using rule 40 (expression -> expression TIMES expression .)
+    LT              reduce using rule 40 (expression -> expression TIMES expression .)
+    LOE             reduce using rule 40 (expression -> expression TIMES expression .)
+    GOE             reduce using rule 40 (expression -> expression TIMES expression .)
+    EQUALS          reduce using rule 40 (expression -> expression TIMES expression .)
+    DIFFERENT       reduce using rule 40 (expression -> expression TIMES expression .)
+    COMMA           reduce using rule 40 (expression -> expression TIMES expression .)
+    COR             reduce using rule 40 (expression -> expression TIMES expression .)
+    END             reduce using rule 40 (expression -> expression TIMES expression .)
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+  ! OR              [ reduce using rule 40 (expression -> expression TIMES expression .) ]
+  ! AND             [ reduce using rule 40 (expression -> expression TIMES expression .) ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! MINUS           [ shift and go to state 26 ]
+  ! DIVIDE          [ shift and go to state 27 ]
+
+
+state 42
+
+    (41) expression -> expression MINUS expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 41 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 41 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 41 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 41 (expression -> expression MINUS expression .)
+    CAND            reduce using rule 41 (expression -> expression MINUS expression .)
+    GT              reduce using rule 41 (expression -> expression MINUS expression .)
+    LT              reduce using rule 41 (expression -> expression MINUS expression .)
+    LOE             reduce using rule 41 (expression -> expression MINUS expression .)
+    GOE             reduce using rule 41 (expression -> expression MINUS expression .)
+    EQUALS          reduce using rule 41 (expression -> expression MINUS expression .)
+    DIFFERENT       reduce using rule 41 (expression -> expression MINUS expression .)
+    COMMA           reduce using rule 41 (expression -> expression MINUS expression .)
+    COR             reduce using rule 41 (expression -> expression MINUS expression .)
+    END             reduce using rule 41 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+  ! TIMES           [ reduce using rule 41 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 41 (expression -> expression MINUS expression .) ]
+  ! OR              [ reduce using rule 41 (expression -> expression MINUS expression .) ]
+  ! AND             [ reduce using rule 41 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! MINUS           [ shift and go to state 26 ]
+
+
+state 43
+
+    (42) expression -> expression DIVIDE expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 42 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 42 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 42 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 42 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 42 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 42 (expression -> expression DIVIDE expression .)
+    CAND            reduce using rule 42 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 42 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 42 (expression -> expression DIVIDE expression .)
+    LOE             reduce using rule 42 (expression -> expression DIVIDE expression .)
+    GOE             reduce using rule 42 (expression -> expression DIVIDE expression .)
+    EQUALS          reduce using rule 42 (expression -> expression DIVIDE expression .)
+    DIFFERENT       reduce using rule 42 (expression -> expression DIVIDE expression .)
+    COMMA           reduce using rule 42 (expression -> expression DIVIDE expression .)
+    COR             reduce using rule 42 (expression -> expression DIVIDE expression .)
+    END             reduce using rule 42 (expression -> expression DIVIDE expression .)
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+  ! OR              [ reduce using rule 42 (expression -> expression DIVIDE expression .) ]
+  ! AND             [ reduce using rule 42 (expression -> expression DIVIDE expression .) ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! MINUS           [ shift and go to state 26 ]
+  ! DIVIDE          [ shift and go to state 27 ]
+
+
+state 44
+
+    (43) expression -> expression OR expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 43 (expression -> expression OR expression .)
+    PLUS            reduce using rule 43 (expression -> expression OR expression .)
+    TIMES           reduce using rule 43 (expression -> expression OR expression .)
+    MINUS           reduce using rule 43 (expression -> expression OR expression .)
+    DIVIDE          reduce using rule 43 (expression -> expression OR expression .)
+    RPAREN          reduce using rule 43 (expression -> expression OR expression .)
+    CAND            reduce using rule 43 (expression -> expression OR expression .)
+    GT              reduce using rule 43 (expression -> expression OR expression .)
+    LT              reduce using rule 43 (expression -> expression OR expression .)
+    LOE             reduce using rule 43 (expression -> expression OR expression .)
+    GOE             reduce using rule 43 (expression -> expression OR expression .)
+    EQUALS          reduce using rule 43 (expression -> expression OR expression .)
+    DIFFERENT       reduce using rule 43 (expression -> expression OR expression .)
+    COMMA           reduce using rule 43 (expression -> expression OR expression .)
+    COR             reduce using rule 43 (expression -> expression OR expression .)
+    END             reduce using rule 43 (expression -> expression OR expression .)
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+  ! OR              [ reduce using rule 43 (expression -> expression OR expression .) ]
+  ! AND             [ reduce using rule 43 (expression -> expression OR expression .) ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! MINUS           [ shift and go to state 26 ]
+  ! DIVIDE          [ shift and go to state 27 ]
+
+
+state 45
+
+    (44) expression -> expression AND expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 44 (expression -> expression AND expression .)
+    PLUS            reduce using rule 44 (expression -> expression AND expression .)
+    TIMES           reduce using rule 44 (expression -> expression AND expression .)
+    MINUS           reduce using rule 44 (expression -> expression AND expression .)
+    DIVIDE          reduce using rule 44 (expression -> expression AND expression .)
+    RPAREN          reduce using rule 44 (expression -> expression AND expression .)
+    CAND            reduce using rule 44 (expression -> expression AND expression .)
+    GT              reduce using rule 44 (expression -> expression AND expression .)
+    LT              reduce using rule 44 (expression -> expression AND expression .)
+    LOE             reduce using rule 44 (expression -> expression AND expression .)
+    GOE             reduce using rule 44 (expression -> expression AND expression .)
+    EQUALS          reduce using rule 44 (expression -> expression AND expression .)
+    DIFFERENT       reduce using rule 44 (expression -> expression AND expression .)
+    COMMA           reduce using rule 44 (expression -> expression AND expression .)
+    COR             reduce using rule 44 (expression -> expression AND expression .)
+    END             reduce using rule 44 (expression -> expression AND expression .)
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+  ! OR              [ reduce using rule 44 (expression -> expression AND expression .) ]
+  ! AND             [ reduce using rule 44 (expression -> expression AND expression .) ]
+  ! PLUS            [ shift and go to state 24 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! MINUS           [ shift and go to state 26 ]
+  ! DIVIDE          [ shift and go to state 27 ]
+
+
+state 46
+
+    (25) condition -> IF LPAREN boolexpr . RPAREN block END
+    (26) condition -> IF LPAREN boolexpr . RPAREN block ELSE block END
+    (30) boolexpr -> boolexpr . COR boolexpr
+
+    RPAREN          shift and go to state 59
+    COR             shift and go to state 60
+
+
+state 47
+
+    (31) boolexpr -> expression . CAND expression
+    (32) boolexpr -> expression . GT expression
+    (33) boolexpr -> expression . LT expression
+    (34) boolexpr -> expression . LOE expression
+    (35) boolexpr -> expression . GOE expression
+    (36) boolexpr -> expression . EQUALS expression
+    (37) boolexpr -> expression . DIFFERENT expression
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    CAND            shift and go to state 61
+    GT              shift and go to state 62
+    LT              shift and go to state 63
+    LOE             shift and go to state 64
+    GOE             shift and go to state 65
+    EQUALS          shift and go to state 66
+    DIFFERENT       shift and go to state 67
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 48
+
+    (45) expression -> LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    OR              reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    AND             reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    CAND            reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    GT              reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    LT              reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    LOE             reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    GOE             reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    DIFFERENT       reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    COR             reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+    END             reduce using rule 45 (expression -> LPAREN expression RPAREN .)
+
+
+state 49
+
+    (16) expression -> NAME LPAREN . callarg RPAREN
+    (17) expression -> NAME LPAREN . RPAREN
+    (20) callarg -> . expression COMMA callarg
+    (21) callarg -> . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    RPAREN          shift and go to state 69
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    callarg                        shift and go to state 68
+    expression                     shift and go to state 55
+
+state 50
+
+    (27) loop -> WHILE LPAREN boolexpr . RPAREN block END
+    (30) boolexpr -> boolexpr . COR boolexpr
+
+    RPAREN          shift and go to state 70
+    COR             shift and go to state 60
+
+
+state 51
+
+    (28) loop -> UNTIL LPAREN boolexpr . RPAREN block END
+    (30) boolexpr -> boolexpr . COR boolexpr
+
+    RPAREN          shift and go to state 71
+    COR             shift and go to state 60
+
+
+state 52
+
+    (29) loop -> FOR LPAREN NAME . SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+
+    SEMICOLON       shift and go to state 72
+
+
+state 53
+
+    (14) statement -> NAME LPAREN callarg . RPAREN
+    (16) expression -> NAME LPAREN callarg . RPAREN
+
+    RPAREN          shift and go to state 73
+
+
+state 54
+
+    (15) statement -> NAME LPAREN RPAREN .
+    (17) expression -> NAME LPAREN RPAREN .
+
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 15 (statement -> NAME LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 15 (statement -> NAME LPAREN RPAREN .)
+    PLUS            reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    TIMES           reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    MINUS           reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    DIVIDE          reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    OR              reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    AND             reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+
+  ! SEMICOLON       [ reduce using rule 17 (expression -> NAME LPAREN RPAREN .) ]
+
+
+state 55
+
+    (20) callarg -> expression . COMMA callarg
+    (21) callarg -> expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    COMMA           shift and go to state 74
+    RPAREN          reduce using rule 21 (callarg -> expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 56
+
+    (24) statement -> NAME AFFECT expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    SEMICOLON       reduce using rule 24 (statement -> NAME AFFECT expression .)
+    RPAREN          reduce using rule 24 (statement -> NAME AFFECT expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 57
+
+    (10) funcdef -> LET NAME LPAREN . declarg RPAREN block END
+    (11) funcdef -> LET NAME LPAREN . RPAREN block END
+    (12) funcdef -> LET NAME LPAREN . declarg RPAREN block RETURN expression END
+    (13) funcdef -> LET NAME LPAREN . RPAREN block RETURN expression END
+    (18) declarg -> . NAME COMMA declarg
+    (19) declarg -> . NAME
+
+    RPAREN          shift and go to state 77
+    NAME            shift and go to state 75
+
+    declarg                        shift and go to state 76
+
+state 58
+
+    (38) expression -> PRINT LPAREN expression . RPAREN
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          shift and go to state 78
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 59
+
+    (25) condition -> IF LPAREN boolexpr RPAREN . block END
+    (26) condition -> IF LPAREN boolexpr RPAREN . block ELSE block END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    block                          shift and go to state 79
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 60
+
+    (30) boolexpr -> boolexpr COR . boolexpr
+    (30) boolexpr -> . boolexpr COR boolexpr
+    (31) boolexpr -> . expression CAND expression
+    (32) boolexpr -> . expression GT expression
+    (33) boolexpr -> . expression LT expression
+    (34) boolexpr -> . expression LOE expression
+    (35) boolexpr -> . expression GOE expression
+    (36) boolexpr -> . expression EQUALS expression
+    (37) boolexpr -> . expression DIFFERENT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    boolexpr                       shift and go to state 80
+    expression                     shift and go to state 47
+
+state 61
+
+    (31) boolexpr -> expression CAND . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 81
+
+state 62
+
+    (32) boolexpr -> expression GT . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 82
+
+state 63
+
+    (33) boolexpr -> expression LT . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 83
+
+state 64
+
+    (34) boolexpr -> expression LOE . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 84
+
+state 65
+
+    (35) boolexpr -> expression GOE . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 85
+
+state 66
+
+    (36) boolexpr -> expression EQUALS . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 86
+
+state 67
+
+    (37) boolexpr -> expression DIFFERENT . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 87
+
+state 68
+
+    (16) expression -> NAME LPAREN callarg . RPAREN
+
+    RPAREN          shift and go to state 88
+
+
+state 69
+
+    (17) expression -> NAME LPAREN RPAREN .
+
+    RPAREN          reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    PLUS            reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    TIMES           reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    MINUS           reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    DIVIDE          reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    OR              reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    AND             reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    CAND            reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    GT              reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    LT              reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    LOE             reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    GOE             reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    EQUALS          reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    DIFFERENT       reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    COMMA           reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    COR             reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+    END             reduce using rule 17 (expression -> NAME LPAREN RPAREN .)
+
+
+state 70
+
+    (27) loop -> WHILE LPAREN boolexpr RPAREN . block END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    block                          shift and go to state 89
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 71
+
+    (28) loop -> UNTIL LPAREN boolexpr RPAREN . block END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    block                          shift and go to state 90
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 72
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON . boolexpr SEMICOLON statement RPAREN block END
+    (30) boolexpr -> . boolexpr COR boolexpr
+    (31) boolexpr -> . expression CAND expression
+    (32) boolexpr -> . expression GT expression
+    (33) boolexpr -> . expression LT expression
+    (34) boolexpr -> . expression LOE expression
+    (35) boolexpr -> . expression GOE expression
+    (36) boolexpr -> . expression EQUALS expression
+    (37) boolexpr -> . expression DIFFERENT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    boolexpr                       shift and go to state 91
+    expression                     shift and go to state 47
+
+state 73
+
+    (14) statement -> NAME LPAREN callarg RPAREN .
+    (16) expression -> NAME LPAREN callarg RPAREN .
+
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 14 (statement -> NAME LPAREN callarg RPAREN .)
+    SEMICOLON       reduce using rule 14 (statement -> NAME LPAREN callarg RPAREN .)
+    PLUS            reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    TIMES           reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    MINUS           reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    DIVIDE          reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    OR              reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    AND             reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+
+  ! SEMICOLON       [ reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .) ]
+
+
+state 74
+
+    (20) callarg -> expression COMMA . callarg
+    (20) callarg -> . expression COMMA callarg
+    (21) callarg -> . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 55
+    callarg                        shift and go to state 92
+
+state 75
+
+    (18) declarg -> NAME . COMMA declarg
+    (19) declarg -> NAME .
+
+    COMMA           shift and go to state 93
+    RPAREN          reduce using rule 19 (declarg -> NAME .)
+
+
+state 76
+
+    (10) funcdef -> LET NAME LPAREN declarg . RPAREN block END
+    (12) funcdef -> LET NAME LPAREN declarg . RPAREN block RETURN expression END
+
+    RPAREN          shift and go to state 94
+
+
+state 77
+
+    (11) funcdef -> LET NAME LPAREN RPAREN . block END
+    (13) funcdef -> LET NAME LPAREN RPAREN . block RETURN expression END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    block                          shift and go to state 95
+    expression                     shift and go to state 8
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+
+state 78
+
+    (38) expression -> PRINT LPAREN expression RPAREN .
+
+    SEMICOLON       reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    PLUS            reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    TIMES           reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    MINUS           reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    OR              reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    AND             reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    CAND            reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    GT              reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    LT              reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    LOE             reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    GOE             reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    DIFFERENT       reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    COMMA           reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    COR             reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+    END             reduce using rule 38 (expression -> PRINT LPAREN expression RPAREN .)
+
+
+state 79
+
+    (25) condition -> IF LPAREN boolexpr RPAREN block . END
+    (26) condition -> IF LPAREN boolexpr RPAREN block . ELSE block END
+
+    END             shift and go to state 96
+    ELSE            shift and go to state 97
+
+
+state 80
+
+    (30) boolexpr -> boolexpr COR boolexpr .
+    (30) boolexpr -> boolexpr . COR boolexpr
+
+  ! shift/reduce conflict for COR resolved as shift
+    RPAREN          reduce using rule 30 (boolexpr -> boolexpr COR boolexpr .)
+    SEMICOLON       reduce using rule 30 (boolexpr -> boolexpr COR boolexpr .)
+    COR             shift and go to state 60
+
+  ! COR             [ reduce using rule 30 (boolexpr -> boolexpr COR boolexpr .) ]
+
+
+state 81
+
+    (31) boolexpr -> expression CAND expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 31 (boolexpr -> expression CAND expression .)
+    COR             reduce using rule 31 (boolexpr -> expression CAND expression .)
+    SEMICOLON       reduce using rule 31 (boolexpr -> expression CAND expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 82
+
+    (32) boolexpr -> expression GT expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 32 (boolexpr -> expression GT expression .)
+    COR             reduce using rule 32 (boolexpr -> expression GT expression .)
+    SEMICOLON       reduce using rule 32 (boolexpr -> expression GT expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 83
+
+    (33) boolexpr -> expression LT expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 33 (boolexpr -> expression LT expression .)
+    COR             reduce using rule 33 (boolexpr -> expression LT expression .)
+    SEMICOLON       reduce using rule 33 (boolexpr -> expression LT expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 84
+
+    (34) boolexpr -> expression LOE expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 34 (boolexpr -> expression LOE expression .)
+    COR             reduce using rule 34 (boolexpr -> expression LOE expression .)
+    SEMICOLON       reduce using rule 34 (boolexpr -> expression LOE expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 85
+
+    (35) boolexpr -> expression GOE expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 35 (boolexpr -> expression GOE expression .)
+    COR             reduce using rule 35 (boolexpr -> expression GOE expression .)
+    SEMICOLON       reduce using rule 35 (boolexpr -> expression GOE expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 86
+
+    (36) boolexpr -> expression EQUALS expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 36 (boolexpr -> expression EQUALS expression .)
+    COR             reduce using rule 36 (boolexpr -> expression EQUALS expression .)
+    SEMICOLON       reduce using rule 36 (boolexpr -> expression EQUALS expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 87
+
+    (37) boolexpr -> expression DIFFERENT expression .
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    RPAREN          reduce using rule 37 (boolexpr -> expression DIFFERENT expression .)
+    COR             reduce using rule 37 (boolexpr -> expression DIFFERENT expression .)
+    SEMICOLON       reduce using rule 37 (boolexpr -> expression DIFFERENT expression .)
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 88
+
+    (16) expression -> NAME LPAREN callarg RPAREN .
+
+    RPAREN          reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    PLUS            reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    TIMES           reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    MINUS           reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    DIVIDE          reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    OR              reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    AND             reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    SEMICOLON       reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    CAND            reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    GT              reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    LT              reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    LOE             reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    GOE             reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    EQUALS          reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    DIFFERENT       reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    COMMA           reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    COR             reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+    END             reduce using rule 16 (expression -> NAME LPAREN callarg RPAREN .)
+
+
+state 89
+
+    (27) loop -> WHILE LPAREN boolexpr RPAREN block . END
+
+    END             shift and go to state 98
+
+
+state 90
+
+    (28) loop -> UNTIL LPAREN boolexpr RPAREN block . END
+
+    END             shift and go to state 99
+
+
+state 91
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON boolexpr . SEMICOLON statement RPAREN block END
+    (30) boolexpr -> boolexpr . COR boolexpr
+
+    SEMICOLON       shift and go to state 100
+    COR             shift and go to state 60
+
+
+state 92
+
+    (20) callarg -> expression COMMA callarg .
+
+    RPAREN          reduce using rule 20 (callarg -> expression COMMA callarg .)
+
+
+state 93
+
+    (18) declarg -> NAME COMMA . declarg
+    (18) declarg -> . NAME COMMA declarg
+    (19) declarg -> . NAME
+
+    NAME            shift and go to state 75
+
+    declarg                        shift and go to state 101
+
+state 94
+
+    (10) funcdef -> LET NAME LPAREN declarg RPAREN . block END
+    (12) funcdef -> LET NAME LPAREN declarg RPAREN . block RETURN expression END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    block                          shift and go to state 102
+    expression                     shift and go to state 8
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+
+state 95
+
+    (11) funcdef -> LET NAME LPAREN RPAREN block . END
+    (13) funcdef -> LET NAME LPAREN RPAREN block . RETURN expression END
+
+    END             shift and go to state 103
+    RETURN          shift and go to state 104
+
+
+state 96
+
+    (25) condition -> IF LPAREN boolexpr RPAREN block END .
+
+    IF              reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    WHILE           reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    UNTIL           reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    FOR             reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    LET             reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    NAME            reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    PRINT           reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    LPAREN          reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    NUMBER          reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    $end            reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    END             reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    ELSE            reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+    RETURN          reduce using rule 25 (condition -> IF LPAREN boolexpr RPAREN block END .)
+
+
+state 97
+
+    (26) condition -> IF LPAREN boolexpr RPAREN block ELSE . block END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    block                          shift and go to state 105
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    statement                      shift and go to state 7
+    expression                     shift and go to state 8
+
+state 98
+
+    (27) loop -> WHILE LPAREN boolexpr RPAREN block END .
+
+    IF              reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    WHILE           reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    UNTIL           reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    FOR             reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    LET             reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    NAME            reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    PRINT           reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    LPAREN          reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    NUMBER          reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    $end            reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    END             reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    ELSE            reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+    RETURN          reduce using rule 27 (loop -> WHILE LPAREN boolexpr RPAREN block END .)
+
+
+state 99
+
+    (28) loop -> UNTIL LPAREN boolexpr RPAREN block END .
+
+    IF              reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    WHILE           reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    UNTIL           reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    FOR             reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    LET             reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    NAME            reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    PRINT           reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    LPAREN          reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    NUMBER          reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    $end            reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    END             reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    ELSE            reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+    RETURN          reduce using rule 28 (loop -> UNTIL LPAREN boolexpr RPAREN block END .)
+
+
+state 100
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON . statement RPAREN block END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+
+    NAME            shift and go to state 106
+
+    statement                      shift and go to state 107
+
+state 101
+
+    (18) declarg -> NAME COMMA declarg .
+
+    RPAREN          reduce using rule 18 (declarg -> NAME COMMA declarg .)
+
+
+state 102
+
+    (10) funcdef -> LET NAME LPAREN declarg RPAREN block . END
+    (12) funcdef -> LET NAME LPAREN declarg RPAREN block . RETURN expression END
+
+    END             shift and go to state 108
+    RETURN          shift and go to state 109
+
+
+state 103
+
+    (11) funcdef -> LET NAME LPAREN RPAREN block END .
+
+    IF              reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    WHILE           reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    UNTIL           reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    FOR             reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    LET             reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    NAME            reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    PRINT           reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    LPAREN          reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    NUMBER          reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    $end            reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    END             reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    ELSE            reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+    RETURN          reduce using rule 11 (funcdef -> LET NAME LPAREN RPAREN block END .)
+
+
+state 104
+
+    (13) funcdef -> LET NAME LPAREN RPAREN block RETURN . expression END
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 110
+
+state 105
+
+    (26) condition -> IF LPAREN boolexpr RPAREN block ELSE block . END
+
+    END             shift and go to state 111
+
+
+state 106
+
+    (14) statement -> NAME . LPAREN callarg RPAREN
+    (15) statement -> NAME . LPAREN RPAREN
+    (24) statement -> NAME . AFFECT expression
+
+    LPAREN          shift and go to state 112
+    AFFECT          shift and go to state 37
+
+
+state 107
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement . RPAREN block END
+
+    RPAREN          shift and go to state 113
+
+
+state 108
+
+    (10) funcdef -> LET NAME LPAREN declarg RPAREN block END .
+
+    IF              reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    WHILE           reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    UNTIL           reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    FOR             reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    LET             reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    NAME            reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    PRINT           reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    LPAREN          reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    NUMBER          reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    $end            reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    END             reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    ELSE            reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+    RETURN          reduce using rule 10 (funcdef -> LET NAME LPAREN declarg RPAREN block END .)
+
+
+state 109
+
+    (12) funcdef -> LET NAME LPAREN declarg RPAREN block RETURN . expression END
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    expression                     shift and go to state 114
+
+state 110
+
+    (13) funcdef -> LET NAME LPAREN RPAREN block RETURN expression . END
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    END             shift and go to state 115
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 111
+
+    (26) condition -> IF LPAREN boolexpr RPAREN block ELSE block END .
+
+    IF              reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    WHILE           reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    UNTIL           reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    FOR             reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    LET             reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    NAME            reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    PRINT           reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    LPAREN          reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    NUMBER          reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    $end            reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    END             reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    ELSE            reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+    RETURN          reduce using rule 26 (condition -> IF LPAREN boolexpr RPAREN block ELSE block END .)
+
+
+state 112
+
+    (14) statement -> NAME LPAREN . callarg RPAREN
+    (15) statement -> NAME LPAREN . RPAREN
+    (20) callarg -> . expression COMMA callarg
+    (21) callarg -> . expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    RPAREN          shift and go to state 117
+    NAME            shift and go to state 32
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    callarg                        shift and go to state 116
+    expression                     shift and go to state 55
+
+state 113
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN . block END
+    (2) block -> . instruction block
+    (3) block -> . condition block
+    (4) block -> . loop block
+    (5) block -> . funcdef block
+    (6) block -> . instruction
+    (7) block -> . condition
+    (8) block -> . loop
+    (9) block -> . funcdef
+    (22) instruction -> . statement SEMICOLON
+    (23) instruction -> . expression SEMICOLON
+    (25) condition -> . IF LPAREN boolexpr RPAREN block END
+    (26) condition -> . IF LPAREN boolexpr RPAREN block ELSE block END
+    (27) loop -> . WHILE LPAREN boolexpr RPAREN block END
+    (28) loop -> . UNTIL LPAREN boolexpr RPAREN block END
+    (29) loop -> . FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END
+    (10) funcdef -> . LET NAME LPAREN declarg RPAREN block END
+    (11) funcdef -> . LET NAME LPAREN RPAREN block END
+    (12) funcdef -> . LET NAME LPAREN declarg RPAREN block RETURN expression END
+    (13) funcdef -> . LET NAME LPAREN RPAREN block RETURN expression END
+    (14) statement -> . NAME LPAREN callarg RPAREN
+    (15) statement -> . NAME LPAREN RPAREN
+    (24) statement -> . NAME AFFECT expression
+    (16) expression -> . NAME LPAREN callarg RPAREN
+    (17) expression -> . NAME LPAREN RPAREN
+    (38) expression -> . PRINT LPAREN expression RPAREN
+    (39) expression -> . expression PLUS expression
+    (40) expression -> . expression TIMES expression
+    (41) expression -> . expression MINUS expression
+    (42) expression -> . expression DIVIDE expression
+    (43) expression -> . expression OR expression
+    (44) expression -> . expression AND expression
+    (45) expression -> . LPAREN expression RPAREN
+    (46) expression -> . NUMBER
+    (47) expression -> . NAME
+
+    IF              shift and go to state 9
+    WHILE           shift and go to state 11
+    UNTIL           shift and go to state 12
+    FOR             shift and go to state 13
+    LET             shift and go to state 15
+    NAME            shift and go to state 14
+    PRINT           shift and go to state 16
+    LPAREN          shift and go to state 10
+    NUMBER          shift and go to state 17
+
+    statement                      shift and go to state 7
+    block                          shift and go to state 118
+    instruction                    shift and go to state 3
+    condition                      shift and go to state 4
+    loop                           shift and go to state 5
+    funcdef                        shift and go to state 6
+    expression                     shift and go to state 8
+
+state 114
+
+    (12) funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression . END
+    (39) expression -> expression . PLUS expression
+    (40) expression -> expression . TIMES expression
+    (41) expression -> expression . MINUS expression
+    (42) expression -> expression . DIVIDE expression
+    (43) expression -> expression . OR expression
+    (44) expression -> expression . AND expression
+
+    END             shift and go to state 119
+    PLUS            shift and go to state 24
+    TIMES           shift and go to state 25
+    MINUS           shift and go to state 26
+    DIVIDE          shift and go to state 27
+    OR              shift and go to state 28
+    AND             shift and go to state 29
+
+
+state 115
+
+    (13) funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .
+
+    IF              reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    WHILE           reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    UNTIL           reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    FOR             reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    LET             reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    NAME            reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    PRINT           reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    LPAREN          reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    NUMBER          reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    $end            reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    END             reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    ELSE            reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+    RETURN          reduce using rule 13 (funcdef -> LET NAME LPAREN RPAREN block RETURN expression END .)
+
+
+state 116
+
+    (14) statement -> NAME LPAREN callarg . RPAREN
+
+    RPAREN          shift and go to state 120
+
+
+state 117
+
+    (15) statement -> NAME LPAREN RPAREN .
+
+    RPAREN          reduce using rule 15 (statement -> NAME LPAREN RPAREN .)
+
+
+state 118
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block . END
+
+    END             shift and go to state 121
+
+
+state 119
+
+    (12) funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .
+
+    IF              reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    WHILE           reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    UNTIL           reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    FOR             reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    LET             reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    NAME            reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    PRINT           reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    LPAREN          reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    NUMBER          reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    $end            reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    END             reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    ELSE            reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+    RETURN          reduce using rule 12 (funcdef -> LET NAME LPAREN declarg RPAREN block RETURN expression END .)
+
+
+state 120
+
+    (14) statement -> NAME LPAREN callarg RPAREN .
+
+    RPAREN          reduce using rule 14 (statement -> NAME LPAREN callarg RPAREN .)
+
+
+state 121
+
+    (29) loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .
+
+    IF              reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    WHILE           reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    UNTIL           reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    FOR             reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    LET             reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    NAME            reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    PRINT           reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    LPAREN          reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    NUMBER          reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    $end            reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    END             reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    ELSE            reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+    RETURN          reduce using rule 29 (loop -> FOR LPAREN NAME SEMICOLON boolexpr SEMICOLON statement RPAREN block END .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for COR in state 80 resolved as shift
+WARNING: reduce/reduce conflict in state 54 resolved using rule (statement -> NAME LPAREN RPAREN)
+WARNING: rejected rule (expression -> NAME LPAREN RPAREN) in state 54
+WARNING: reduce/reduce conflict in state 73 resolved using rule (statement -> NAME LPAREN callarg RPAREN)
+WARNING: rejected rule (expression -> NAME LPAREN callarg RPAREN) in state 73
