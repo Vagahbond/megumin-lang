@@ -2,6 +2,12 @@ import ply.yacc as yacc
 import ply.lex as lex
 import sys as sys
 from genereTreeGraphviz2 import printTreeGraph
+from pointer import Pointer
+from pointer import PtrType
+from scope import Scope
+
+
+
 
 reserved = {
     'out': 'PRINT',
@@ -12,7 +18,8 @@ reserved = {
     'until': 'UNTIL',
     'for': 'FOR',
     'let': 'LET',
-    'return': 'RETURN'
+    'return': 'RETURN',
+    'var' : 'VAR'
 
 }
 
@@ -50,9 +57,10 @@ t_CAND = r'\&\&'
 t_COMMA = r','
 
 
-variables = {}
-stack = [{},]
-functions = {}
+# variables = {}
+# functions = {}
+# datapool = {}
+current_scope = Scope(None)
 
 
 def t_NUMBER(t):
@@ -91,6 +99,7 @@ precedence = (
      'LOE', 'GOE', 'EQUALS', 'DIFFERENT'),
     ('right', 'AND', 'OR'),
     ('left', 'AFFECT'),
+    ('left', 'LET'),
 )
 
 
@@ -98,7 +107,7 @@ def p_start(p):
     'start : block'
     p[0] = ('START', p[1])
     print('Arbre de derivation = ', p[0])
-    #printTreeGraph(p[1])
+    printTreeGraph(p[1])
     evalInst(p[1])
 
 
@@ -127,14 +136,17 @@ def p_define_noparam_void(p):
     p[0] = ('funcdef', p[2], None, p[5], None)
 
 
-def p_define_function(p):
-    'funcdef : LET NAME LPAREN declarg RPAREN block RETURN expression END'
-    p[0] = ('funcdef', p[2], p[4], p[6], p[8])
+# def p_define_function(p):
+#     'funcdef : LET NAME LPAREN declarg RPAREN block RETURN expression END'
+#     p[0] = ('funcdef', p[2], p[4], p[6], p[8])
 
-def p_define_noparam_function(p):
-    'funcdef : LET NAME LPAREN RPAREN block RETURN expression END'
-    p[0] = ('funcdef', p[2], None, p[5], p[7])
+# def p_define_noparam_function(p):
+#     'funcdef : LET NAME LPAREN RPAREN block RETURN expression END'
+#     p[0] = ('funcdef', p[2], None, p[5], p[7])
 
+def p_return_statement(p):
+    'statement : RETURN expression'
+    p[0] = ('return', p[2])
 
 
 def p_call_void_statement(p):
@@ -202,6 +214,14 @@ def p_instruction(p):
 def p_statement_affect(p):
     'statement : NAME AFFECT expression'
     p[0] = ('=', p[1], p[3])
+
+def p_statement_declare_var(p):
+    'statement : VAR NAME'
+    p[0] = ('var_declar', p[2], None)
+
+def p_statement_declare_init_var(p):
+    'statement : VAR NAME AFFECT expression'
+    p[0] = ('var_declar', p[2], p[4])
 
 
 def p_statement_if(p):
@@ -339,16 +359,18 @@ yacc.yacc()
 
 
 def evalInst(t):
+    global current_scope
     #print('evalInst de ', t)
     if type(t) is tuple:
-        if t[0] == '=':
-            exists = False
-            for scope in stack:
-                if t[1] in scope:
-                    exists = True
-            if t[1] not in reserved and not exists:
-                stack[len(stack) - 1][t[1]] = evalExpr(t[2])
+        if t[0] == 'var_declar':
+            current_scope.addValue(PtrType.VAR, t[1], t[2])
 
+
+        if t[0] == '=':
+            if t[1] not in reserved:
+                current_scope.affectValue(t[1], evalExpr(t[2]))
+            else:
+                raise ValueError("Word :", t[1], "is reserved.")
                
         if t[0] == 'expression':
             print('CALC> ', evalInst(t))
@@ -358,19 +380,27 @@ def evalInst(t):
                 evalInst(t[i])
 
         if t[0] == 'funcdef':
-            functions[t[1]] = (evalInst(t[2]), t[3], t[4])
-
+            if (t[1] not in reserved):
+                current_scope.addValue(PtrType.FUNC, t[1], (evalInst(t[2]), t[3], t[4]))
+            else :
+                raise ValueError("Word :", t[1], "is reserved.")
 
         if t[0] == 'voidcall':
-            var = {}
+
+
             args = evalInst(t[2])
-            if (args != None and  functions[t[1]][0] == None) or (args == None and  functions[t[1]][0] != None) or (not len(args) == len(functions[t[1]][0])):
-                raise ValueError("Mismatching number of args !")
-            for i, argName in enumerate(functions[t[1]][0]):
-                var[argName] = args[i]
-            stack.append(var) 
-            evalInst(functions[t[1]][1])
-            stack.pop()
+            fn = current_scope.getValue(t[1])
+
+            if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or (not len(args) == len(fn[0])):
+                raise ValueError("Mismatching number of args in function:", t[0], "!")
+
+            current_scope = Scope(current_scope)
+
+            for i, argName in enumerate(fn[0]):
+                current_scope.addValue(PtrType.VAR, argName, args[i])
+
+            evalInst(fn[1])
+            current_scope = current_scope.parent
 
 
 
@@ -414,11 +444,17 @@ def evalInst(t):
                 evalInst(t[2])
 
         if t[0] == 'for':
-            stack.append({t[1] : 0})
+            current_scope = Scope(current_scope)
             while evalBool(t[2]):
                 evalInst(t[4])
                 evalInst(t[3])
-            stack.pop()
+            current_scope = current_scope.parent
+
+        if t[0] == 'return':
+            current_scope.ret_value = evalExpr(t[1])
+
+
+
 
 
 def evalBool(t):
@@ -428,60 +464,80 @@ def evalBool(t):
     if type(t) is tuple:
         if t[0] == '||':
             return evalBool(t[1]) or evalBool(t[2])
+
         if t[0] == '&&':
             return evalBool(t[1]) and evalBool(t[2])
+
         if t[0] == '>':
             return evalExpr(t[1]) > evalExpr(t[2])
+
         if t[0] == '<':
             return evalExpr(t[1]) < evalExpr(t[2])
+
         if t[0] == '<=':
             return evalExpr(t[1]) <= evalExpr(t[2])
+
         if t[0] == '>=':
             return evalExpr(t[1]) >= evalExpr(t[2])
+
         if t[0] == '==':
             return evalExpr(t[1]) == evalExpr(t[2])
+
         if t[0] == '!=':
             return evalExpr(t[1]) != evalExpr(t[2])
     return "UNK"
 
 
 def evalExpr(t):
+    global current_scope
     #print('evalExpr de ', t)
     if type(t) is int:
         return t
     if type(t) is tuple:
         if t[0] == '+':
             return evalExpr(t[1]) + evalExpr(t[2])
+
         if t[0] == '*':
             return evalExpr(t[1]) * evalExpr(t[2])
+
         if t[0] == '/':
             return evalExpr(t[1]) / evalExpr(t[2])
+
         if t[0] == '-':
             return evalExpr(t[1]) - evalExpr(t[2])
+
         if t[0] == '|':
             return evalExpr(t[1]) | evalExpr(t[2])
+
         if t[0] == '&':
             return evalExpr(t[1]) & evalExpr(t[2])
+
         if t[0] == 'var':
-            for scope in reversed(stack):
-                if t[1] in scope:
-                    return scope[t[1]]
-            raise ValueError('Unknown variable :', t[1]) 
+            return current_scope.getValue(t[1])
+
         if t[0] == 'funccall':
-            var = {}
             args = evalInst(t[2])
-            if (args != None and  functions[t[1]][0] == None) or (args == None and  functions[t[1]][0] != None) or (not len(args) == len(functions[t[1]][0])):
+            fn = current_scope.getValue(t[1])
+
+            if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or (not len(args) == len(fn[0])):
                 raise ValueError("Mismatching number of args !")
-            for i, argName in enumerate(functions[t[1]][0]):
-                var[argName] = args[i]
-            stack.append(var)
-            evalInst(functions[t[1]][1])
-            res =  evalExpr(functions[t[1]][2])
-            stack.pop()
-            return res
 
+            current_scope = Scope(current_scope)
 
+            for i, argName in enumerate(fn[0]):
+                current_scope.addValue(PtrType.VAR, argName, args[i])
 
+            evalInst(fn[1])
+
+            res =  current_scope.ret_value
+
+            current_scope = current_scope.parent
+
+            if res != None:
+                return res
+            else:
+                raise ValueError("No return statement in function", t[1], ".")
+    print("VALUE : ", t)
     return 'UNK'
 
 
