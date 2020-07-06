@@ -97,6 +97,7 @@ def t_error(t):
 lex.lex()
 
 precedence = (
+    ('right', "PRINT"),
     ('left', 'PLUS', 'MINUS'),
     ('left', 'TIMES', 'DIVIDE'),
     ('right',  'GT', 'LT',
@@ -382,7 +383,7 @@ def evalInst(t):
     #print('evalInst de ', t)
     if type(t) is tuple:
         if t[0] == 'var_declar':
-            current_scope.addValue(PtrType.VAR, t[1], t[2])
+            current_scope.addValue(PtrType.VAR, t[1], evalExpr(t[2]))
 
 
         if t[0] == '=':
@@ -391,11 +392,13 @@ def evalInst(t):
             else:
                 raise ValueError("Word :", t[1], "is reserved.")
                
-        if t[0] == 'expression':
-            print('CALC> ', evalInst(t))
+        # if t[0] == 'expression':
+            # print('CALC> ', evalInst(t))
 
         if t[0] == 'block':
             for i in range(1, len(t)):
+                if current_scope.ret_value != None:
+                    break
                 evalInst(t[i])
 
         if t[0] == 'funcdef':

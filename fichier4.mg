@@ -1,4 +1,4 @@
-let fonctionVoid toto(a, b)
+let toto(a, b)
     out(a + b);
 end
 
