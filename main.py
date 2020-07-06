@@ -31,7 +31,7 @@ tokens = [
     'AND', 'SEMICOLON', 'NAME',
     'AFFECT', 'GT', 'LT',
     'LOE', 'GOE', 'EQUALS', 'DIFFERENT',
-    'COR', 'CAND', 'COMMA'
+    'COR', 'CAND', 'COMMA', 'SHORTINCR', 'SHORTADD' #'REF', 'VAL'
 ] + list(reserved.values())
 
 
@@ -55,7 +55,10 @@ t_DIFFERENT = r'!='
 t_COR = r'\|\|'
 t_CAND = r'\&\&'
 t_COMMA = r','
-
+t_SHORTINCR = r'\+\+'
+t_SHORTADD = r'\+='
+# t_REF = r'\r\:'
+# t_VAL = r'\v\:'
 
 # variables = {}
 # functions = {}
@@ -73,6 +76,7 @@ def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'NAME')
     return t
+
 
 
 # Ignored characters
@@ -99,7 +103,8 @@ precedence = (
      'LOE', 'GOE', 'EQUALS', 'DIFFERENT'),
     ('right', 'AND', 'OR'),
     ('left', 'AFFECT'),
-    ('left', 'LET'),
+    ('left', 'LET', "VAR"),
+    
 )
 
 
@@ -107,7 +112,7 @@ def p_start(p):
     'start : block'
     p[0] = ('START', p[1])
     print('Arbre de derivation = ', p[0])
-    printTreeGraph(p[1])
+    # printTreeGraph(p[1])
     evalInst(p[1])
 
 
@@ -298,6 +303,13 @@ def p_expression_binop_plus(p):
     'expression : expression PLUS expression'
     p[0] = ('+', p[1], p[3])
 
+def p_expression_short_incr(p):
+    'expression : NAME SHORTINCR '
+    p[0] = ('++', p[1])
+
+def p_expression_short_plus(p):
+    'expression : NAME SHORTADD expression'
+    p[0] = ('+=', p[1], p[3])
 
 def p_expression_binop_times(p):
     'expression : expression TIMES expression'
@@ -350,6 +362,13 @@ def p_expression_name(p):
     'expression : NAME'
     p[0] = ('var', p[1])
 
+# def p_REF(p):
+#     'expression : REF NAME'
+#     p[0] = ('ref', p[2])
+
+# def p_VAL(p):
+#     'expression : VAL NAME'
+#     p[0] = ('val', p[2])
 
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
@@ -386,22 +405,25 @@ def evalInst(t):
                 raise ValueError("Word :", t[1], "is reserved.")
 
         if t[0] == 'voidcall':
-
-
             args = evalInst(t[2])
             fn = current_scope.getValue(t[1])
 
-            if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or (not len(args) == len(fn[0])):
+            if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or ((args != None and fn[0] != None) and not len(args) == len(fn[0])):
                 raise ValueError("Mismatching number of args in function:", t[0], "!")
 
             current_scope = Scope(current_scope)
-
-            for i, argName in enumerate(fn[0]):
-                current_scope.addValue(PtrType.VAR, argName, args[i])
+            if (fn[0] != None):
+                for i, argName in enumerate(fn[0]):
+                    current_scope.addValue(PtrType.VAR, argName, args[i])
 
             evalInst(fn[1])
             current_scope = current_scope.parent
+        
+        if t[0] == '+=':
+            current_scope.affectValue(t[1], current_scope.getValue(t[1]) + t[2])
 
+        if t[0] == '++':
+            current_scope.affectValue(t[1], current_scope.getValue(t[1]) + 1)
 
 
         # if t[0] == 'func':
@@ -445,6 +467,7 @@ def evalInst(t):
 
         if t[0] == 'for':
             current_scope = Scope(current_scope)
+            current_scope.addValue(PtrType.VAR, t[1], 0)
             while evalBool(t[2]):
                 evalInst(t[4])
                 evalInst(t[3])
@@ -514,18 +537,25 @@ def evalExpr(t):
 
         if t[0] == 'var':
             return current_scope.getValue(t[1])
+        
+        # if t[0] == 'ref':
+        #     return current_scope.getRef(t[1])
+
+        # if t[0] == 'val':
+        #     return current_scope.getValue(t[1])
 
         if t[0] == 'funccall':
             args = evalInst(t[2])
             fn = current_scope.getValue(t[1])
 
-            if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or (not len(args) == len(fn[0])):
+            if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or ((args != None and fn[0] != None) and not len(args) == len(fn[0])):
                 raise ValueError("Mismatching number of args !")
 
             current_scope = Scope(current_scope)
 
-            for i, argName in enumerate(fn[0]):
-                current_scope.addValue(PtrType.VAR, argName, args[i])
+            if (fn[0] != None):
+                for i, argName in enumerate(fn[0]):
+                    current_scope.addValue(PtrType.VAR, argName, args[i])
 
             evalInst(fn[1])
 
@@ -537,7 +567,7 @@ def evalExpr(t):
                 return res
             else:
                 raise ValueError("No return statement in function", t[1], ".")
-    print("VALUE : ", t)
+
     return 'UNK'
 
 
@@ -553,10 +583,18 @@ def evalExpr(t):
 # yacc.parse(s)
 
 
-if len(sys.argv) > 1:
-    data = open(sys.argv[1], 'r')
-    yacc.parse(data.read())
-else:
-    while True:
-        s = input('/>')
-        yacc.parse(s)
+# if len(sys.argv) > 1:
+#     data = open(sys.argv[1], 'r')
+#     yacc.parse(data.read())
+# else:
+#     while True:
+#         s = input('/>')
+#         yacc.parse(s)
+files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
+
+for file in files:
+    with open(file) as code:
+        strcode = code.read()
+        if len(strcode) > 2:
+            yacc.parse(strcode)
+            current_scope = Scope(None)

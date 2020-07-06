@@ -1,3 +1,10 @@
+var a = 1;
+
+
+
+a = 2;
+
+
 
 let fibonacci(n)
 
@@ -9,4 +16,10 @@ let fibonacci(n)
 
 end
 
+let outstuff()
+    out(5);
+end
+
 out(fibonacci(20));
+outstuff();
+

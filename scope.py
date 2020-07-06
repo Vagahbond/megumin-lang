@@ -38,3 +38,17 @@ class Scope:
             return (self.parent.getValue(name))
         else:
             raise ValueError("Name : "+ name+ " is undefined")
+
+    def getRef(self, name:str):
+        if name in self.pointers:
+            return self.pointers[name].address
+        if (self.parent != None):
+            return (self.parent.getValue(name))
+        else:
+            raise ValueError("Name : "+ name+ " is undefined")
+
+    def getRefVal(self, address : str):
+        if (address in Scope.datapool):
+            return Scope[address]
+        else:
+            raise ValueError("Reference : "+ name+ " has no value")
