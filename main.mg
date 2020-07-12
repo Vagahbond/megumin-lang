@@ -1,9 +1,9 @@
 var a = 1;
 
 
-
 a = 2;
 
+var b = <~a;
 
 
 let fibonacci(n)

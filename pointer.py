@@ -1,9 +1,8 @@
 from enum import Enum
 
 class PtrType(Enum):
-    FUNC = 1
-    VAR = 2
-    PTR = 3
+    FUNC = "function"
+    VAR = "variable"
 
 class Pointer:
 

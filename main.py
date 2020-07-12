@@ -25,13 +25,14 @@ reserved = {
 
 
 tokens = [
-    'NUMBER', 'MINUS',
-    'PLUS', 'TIMES', 'DIVIDE',
-    'LPAREN', 'RPAREN', 'OR',
-    'AND', 'SEMICOLON', 'NAME',
-    'AFFECT', 'GT', 'LT',
-    'LOE', 'GOE', 'EQUALS', 'DIFFERENT',
-    'COR', 'CAND', 'COMMA', 'SHORTINCR', 'SHORTADD' #'REF', 'VAL'
+    'NUMBER'    , 
+    'MINUS'     , 'PLUS'  , 'TIMES'     , 'DIVIDE',
+    'LPAREN'    , 'RPAREN', 
+    'OR'        , 'AND'   , 'SEMICOLON' , 'NAME',
+    'AFFECT'    , 'GT'    , 'LT',
+    'LOE'       , 'GOE'   , 'EQUALS'    , 'DIFFERENT',
+    'COR'       , 'CAND'  , 'COMMA'     , 'SHORTINCR', 
+    'SHORTADD'  , 'REF'   , 'VAL'
 ] + list(reserved.values())
 
 
@@ -57,8 +58,8 @@ t_CAND = r'\&\&'
 t_COMMA = r','
 t_SHORTINCR = r'\+\+'
 t_SHORTADD = r'\+='
-# t_REF = r'\r\:'
-# t_VAL = r'\v\:'
+t_REF = r'\<\~'
+t_VAL = r'~>'
 
 # variables = {}
 # functions = {}
@@ -221,6 +222,11 @@ def p_statement_affect(p):
     'statement : NAME AFFECT expression'
     p[0] = ('=', p[1], p[3])
 
+def p_statement_affect_ptr(p):
+    'statement : NAME AFFECT address'
+    p[0] = ('~=', p[1], p[3])
+
+
 def p_statement_declare_var(p):
     'statement : VAR NAME'
     p[0] = ('var_declar', p[2], None)
@@ -229,6 +235,9 @@ def p_statement_declare_init_var(p):
     'statement : VAR NAME AFFECT expression'
     p[0] = ('var_declar', p[2], p[4])
 
+def p_statement_declare_init_ptr(p):
+    'statement : VAR NAME AFFECT address'
+    p[0] = ('ptr_declar', p[2], p[4])
 
 def p_statement_if(p):
     'condition : IF LPAREN boolexpr RPAREN block END'
@@ -363,9 +372,9 @@ def p_expression_name(p):
     'expression : NAME'
     p[0] = ('var', p[1])
 
-# def p_REF(p):
-#     'expression : REF NAME'
-#     p[0] = ('ref', p[2])
+def p_REF(p):
+    'address : REF NAME'
+    p[0] = ('ref', p[2])
 
 # def p_VAL(p):
 #     'expression : VAL NAME'
@@ -385,15 +394,20 @@ def evalInst(t):
         if t[0] == 'var_declar':
             current_scope.addValue(PtrType.VAR, t[1], evalExpr(t[2]))
 
+        if t[0] == 'ptr_declar':
+            current_scope.addPtr(t[1], evalExpr(t[2]))
 
         if t[0] == '=':
-            if t[1] not in reserved:
-                current_scope.affectValue(t[1], evalExpr(t[2]))
-            else:
-                raise ValueError("Word :", t[1], "is reserved.")
+            current_scope.affectValue(t[1], evalExpr(t[2]))
+
+
+        if t[0] == '~=':
+            current_scope.affectPtr(t[1], evalExpr(t[2]))
+
+
                
-        # if t[0] == 'expression':
-            # print('CALC> ', evalInst(t))
+        if t[0] == 'expression':
+            print('CALC> ', evalInst(t))
 
         if t[0] == 'block':
             for i in range(1, len(t)):
@@ -409,7 +423,7 @@ def evalInst(t):
 
         if t[0] == 'voidcall':
             args = evalInst(t[2])
-            fn = current_scope.getValue(t[1])
+            fn = current_scope.getValue(t[1], PtrType.FUNC)
 
             if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or ((args != None and fn[0] != None) and not len(args) == len(fn[0])):
                 raise ValueError("Mismatching number of args in function:", t[0], "!")
@@ -423,10 +437,10 @@ def evalInst(t):
             current_scope = current_scope.parent
         
         if t[0] == '+=':
-            current_scope.affectValue(t[1], current_scope.getValue(t[1]) + t[2])
+            current_scope.affectValue(t[1], current_scope.getValue(t[1], PtrType.VAR) + t[2])
 
         if t[0] == '++':
-            current_scope.affectValue(t[1], current_scope.getValue(t[1]) + 1)
+            current_scope.affectValue(t[1], current_scope.getValue(t[1], PtrType.VAR) + 1)
 
 
         # if t[0] == 'func':
@@ -539,17 +553,17 @@ def evalExpr(t):
             return evalExpr(t[1]) & evalExpr(t[2])
 
         if t[0] == 'var':
-            return current_scope.getValue(t[1])
+            return current_scope.getValue(t[1], PtrType.VAR)
         
-        # if t[0] == 'ref':
-        #     return current_scope.getRef(t[1])
+        if t[0] == 'ref':
+            return current_scope.getPtr(t[1])
 
         # if t[0] == 'val':
         #     return current_scope.getValue(t[1])
 
         if t[0] == 'funccall':
             args = evalInst(t[2])
-            fn = current_scope.getValue(t[1])
+            fn = current_scope.getValue(t[1], PtrType.FUNC)
 
             if (args != None and  fn[0] == None) or (args == None and  fn[0] != None) or ((args != None and fn[0] != None) and not len(args) == len(fn[0])):
                 raise ValueError("Mismatching number of args !")
@@ -586,18 +600,18 @@ def evalExpr(t):
 # yacc.parse(s)
 
 
-# if len(sys.argv) > 1:
-#     data = open(sys.argv[1], 'r')
-#     yacc.parse(data.read())
-# else:
-#     while True:
-#         s = input('/>')
-#         yacc.parse(s)
-files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
+if len(sys.argv) > 1:
+    data = open(sys.argv[1], 'r')
+    yacc.parse(data.read())
+else:
+    while True:
+        s = input('/>')
+        yacc.parse(s)
+# files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
 
-for file in files:
-    with open(file) as code:
-        strcode = code.read()
-        if len(strcode) > 2:
-            yacc.parse(strcode)
-            current_scope = Scope(None)
+# for file in files:
+#     with open(file) as code:
+#         strcode = code.read()
+#         if len(strcode) > 2:
+#             yacc.parse(strcode)
+#             current_scope = Scope(None)
