@@ -1,3 +1,3 @@
-var x = 4;
+summon x = 4;
 x = x + 3;
-out(x);
+yell(x);

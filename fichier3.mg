@@ -1,4 +1,4 @@
-var x = 4;
+summon x = 4;
 
 
 while(x < 30)
@@ -7,5 +7,5 @@ end
 
 
 for (i;i < 4; i = i + 1)
-    out(i * i);
+    yell(i * i);
 end

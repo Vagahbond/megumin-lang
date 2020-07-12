@@ -10,16 +10,18 @@ from scope import Scope
 
 
 reserved = {
-    'out': 'PRINT',
-    'if': 'IF',
-    'else': 'ELSE',
-    'end': 'END',
-    'while': 'WHILE',
-    'until': 'UNTIL',
-    'for': 'FOR',
-    'let': 'LET',
-    'return': 'RETURN',
-    'var' : 'VAR'
+    'yell'  : 'PRINT',
+    'if'    : 'IF',
+    'else'  : 'ELSE',
+    'end'   : 'END',
+    'while' : 'WHILE',
+    'until' : 'UNTIL',
+    'for'   : 'FOR',
+    'spell' : 'LET',
+    'counter': 'RETURN',
+    'summon' : 'VAR',
+    'page'  : 'THIS'
+    'manuscript': 'CLASS',
 
 }
 
@@ -122,7 +124,9 @@ def p_block(p):
     '''block : instruction  block 
     | condition block
     | loop block
-    |  funcdef block'''
+    | funcdef block
+    | classdef block'''
+    
     p[0] = ('block', p[1], p[2])
 
 
@@ -130,7 +134,8 @@ def p_block_terminal(p):
     '''block : instruction
     | condition
     | loop
-    | funcdef'''
+    | funcdef
+    | classdef'''
     p[0] = ('block', p[1])
 
 
@@ -142,7 +147,17 @@ def p_define_noparam_void(p):
     'funcdef : LET NAME LPAREN  RPAREN  block END'
     p[0] = ('funcdef', p[2], None, p[5], None)
 
+def p_define_class(p):
+    'classdef : CLASS NAME attributes END'
+    p[0] = ('classdef', p[2], p[3])
 
+def p_function_attribute(p):
+    'attributes : NAME SEMICOLON | funcdef'
+    p[0] = ('attribute', p[1])
+
+def p_function_attributes(p):
+    'attributes : NAME SEMICOLON attributes | funcdef attributes '
+    p[0] = ('attribute', p[1])
 # def p_define_function(p):
 #     'funcdef : LET NAME LPAREN declarg RPAREN block RETURN expression END'
 #     p[0] = ('funcdef', p[2], p[4], p[6], p[8])
@@ -372,7 +387,7 @@ def p_expression_name(p):
     'expression : NAME'
     p[0] = ('var', p[1])
 
-def p_REF(p):
+def p_reference(p):
     'address : REF NAME'
     p[0] = ('ref', p[2])
 
@@ -396,6 +411,9 @@ def evalInst(t):
 
         if t[0] == 'ptr_declar':
             current_scope.addPtr(t[1], evalExpr(t[2]))
+
+        if t[0] == 'classdef':
+            current_scope.current_func_def
 
         if t[0] == '=':
             current_scope.affectValue(t[1], evalExpr(t[2]))
@@ -600,6 +618,15 @@ def evalExpr(t):
 # yacc.parse(s)
 
 
+files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
+
+for file in files:
+    with open(file) as code:
+        strcode = code.read()
+        if len(strcode) > 2:
+            yacc.parse(strcode)
+            current_scope = Scope(None)
+
 if len(sys.argv) > 1:
     data = open(sys.argv[1], 'r')
     yacc.parse(data.read())
@@ -607,11 +634,3 @@ else:
     while True:
         s = input('/>')
         yacc.parse(s)
-# files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
-
-# for file in files:
-#     with open(file) as code:
-#         strcode = code.read()
-#         if len(strcode) > 2:
-#             yacc.parse(strcode)
-#             current_scope = Scope(None)

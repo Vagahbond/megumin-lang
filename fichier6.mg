@@ -1,8 +1,8 @@
-let toto(a, b)
-    var c = a + b;
-    return c;
-    out(666);
+spell toto(a, b)
+    summon c = a + b;
+    counter c;
+    yell(666);
 end
 
-var x = toto(3, 5);
-out(x);
+summon x = toto(3, 5);
+yell(x);

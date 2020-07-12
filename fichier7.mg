@@ -1,12 +1,12 @@
-let toto(a, b)
+spell toto(a, b)
     if(a == 0)
-        return b;
+        counter b;
     end
-    var c = 0;
+    summon c = 0;
     c = toto(a-1, b-1);
-    return c;
-    out(666);
+    counter c;
+    yell(666);
 end
 
-var x = toto(3, 5);
-out(x);
+summon x = toto(3, 5);
+yell(x);

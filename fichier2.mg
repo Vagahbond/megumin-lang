@@ -1,4 +1,4 @@
-var x = 9;
+summon x = 9;
 x += 4;
 x++;
-out(x);
+yell(x);

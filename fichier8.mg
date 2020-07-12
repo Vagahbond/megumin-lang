@@ -1,28 +1,28 @@
-var a = 2;
+summon a = 2;
 
-out(a);
+yell(a);
 
-var b = <~a;
+summon b = <~a;
 
-out(b);
+yell(b);
 
 b = 5;
 
-out(b);
+yell(b);
 
-out(a);
+yell(a);
 
 
-let toto(a, b)
-    out(a + b);
+spell toto(a, b)
+    yell(a + b);
 end
 
 toto(a, b);
 
-var toto_2 = <~toto;
+summon toto_2 = <~toto;
 
 toto_2(a, b);
 
-toto = 666;
+toto = 70;
 
-out(toto);
+yell(toto);

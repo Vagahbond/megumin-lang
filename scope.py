@@ -12,6 +12,8 @@ class Scope:
 
         self.ret_value = None
 
+        self.current_func_def = None
+
 
     def exists(self, name):
 
