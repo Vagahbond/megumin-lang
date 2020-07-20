@@ -20,7 +20,7 @@ reserved = {
     'spell' : 'LET',
     'counter': 'RETURN',
     'summon' : 'VAR',
-    'page'  : 'THIS'
+    'page'  : 'THIS',
     'manuscript': 'CLASS',
 
 }
@@ -152,11 +152,13 @@ def p_define_class(p):
     p[0] = ('classdef', p[2], p[3])
 
 def p_function_attribute(p):
-    'attributes : NAME SEMICOLON | funcdef'
+    '''attributes : NAME SEMICOLON 
+    | funcdef'''
     p[0] = ('attribute', p[1])
 
 def p_function_attributes(p):
-    'attributes : NAME SEMICOLON attributes | funcdef attributes '
+    '''attributes : NAME SEMICOLON attributes 
+    | funcdef attributes '''
     p[0] = ('attribute', p[1])
 # def p_define_function(p):
 #     'funcdef : LET NAME LPAREN declarg RPAREN block RETURN expression END'
@@ -618,9 +620,10 @@ def evalExpr(t):
 # yacc.parse(s)
 
 
-files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
+files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg", "fichier8.mg"]
 
 for file in files:
+    print(file)
     with open(file) as code:
         strcode = code.read()
         if len(strcode) > 2:
