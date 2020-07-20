@@ -604,14 +604,13 @@ if len(sys.argv) > 1:
     data = open(sys.argv[1], 'r')
     yacc.parse(data.read())
 else:
-    while True:
+    files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
+    for file in files:
+        with open(file) as code:
+            strcode = code.read()
+            if len(strcode) > 2:
+                yacc.parse(strcode)
+            current_scope = Scope(None)
+    while True:    
         s = input('/>')
         yacc.parse(s)
-# files = ["fichier1.mg","fichier2.mg","fichier3.mg","fichier4.mg","fichier5.mg", "fichier6.mg", "fichier7.mg"]
-
-# for file in files:
-#     with open(file) as code:
-#         strcode = code.read()
-#         if len(strcode) > 2:
-#             yacc.parse(strcode)
-#             current_scope = Scope(None)
